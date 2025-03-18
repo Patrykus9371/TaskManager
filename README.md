@@ -19,4 +19,14 @@ A Command Line Interface (CLI) Task Manager written in Python. This tool allows 
 ## Usage
 You can run the Task Manager in interactive mode or pass commands as arguments when starting the program.
 ### Interactive Mode
-* Simply run the script:
+Simply run the script:
+  ```sh
+python TaskManager.py
+  ```
+This will launch an interactive prompt where you can type commands.
+
+### Command Line Arguments
+You can also pass commands directly when starting the program. Example:
+ ```sh
+python task_manager.py add "Task name" "Task description"
+  ```
