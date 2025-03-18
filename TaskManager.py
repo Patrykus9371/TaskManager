@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 import platform
 from datetime import datetime
 from termcolor import colored
@@ -11,7 +12,6 @@ class TaskManager:
     HIDE_AFTER_DAYS = 7 
 
 
-    
     def __init__(self):
         self.current_list = "default.json"
         self.tasks = self.load_tasks()
@@ -28,22 +28,29 @@ class TaskManager:
         with open(self.current_list, "w") as file:
             json.dump([task.to_dict() for task in self.tasks], file, indent=4)
 
+
+
     # Dodaje nowe zadanie
-    def add_task(self, name, description):
+    def add_task(self, name, description, list_name=None):
+        print("Wykonanie funkcji" )
         if not name or not description:
             print(colored("Nazwa i opis zadania są wymagane!", 'orange'))
             return
+        if not list_name:
+            list_name  = self.current_list
+        else:
+            self.switch_task_list(list_name)
+
         self.tasks.append(Task(name, description))
         self.save_tasks()
         print(colored("Zadanie dodane.", 'green'))
 
 
     # Wyświetla listę zadań
-    def list_tasks(self, status_filter=None):
+    def list_tasks(self,status_filter=None):
         if not self.tasks:
             print(colored("Brak dostępnych zadań.", 'red'))
             return
-
         today = datetime.today()
         recent_tasks = []
 
@@ -62,6 +69,7 @@ class TaskManager:
                 print(task_str)
         else:
             print(colored("Brak aktywnych zadań.", 'yellow'))
+
 
 
     # Wyświetla pełną listę zadań
@@ -98,6 +106,7 @@ class TaskManager:
         else:
             print("\n" + colored("Brak starszych zadań.", 'yellow'))
 
+
     # Zwraca kolor statusu zadania
     def get_status_color(self, status):
       
@@ -106,6 +115,7 @@ class TaskManager:
             "Wstrzymane": "red",
             "Zakończone": "green"
         }.get(status, "white")
+
 
 
     # Aktualizuje status zadania
@@ -133,6 +143,7 @@ class TaskManager:
             if 0 <= task_id < len(self.tasks):
                 deleted_task = self.tasks.pop(task_id)
                 self.save_tasks()
+                self.clear_screen()
                 print(colored(f"Zadanie '{deleted_task.name}' zostało usunięte.", "green"))
             else:
                 print(colored("Nieprawidłowy numer zadania.", "red"))
@@ -201,27 +212,68 @@ class TaskManager:
 
         match cmd:
             case "add":
-                name_desc = args.split(";", 1)
+                name_desc = args.split(";", 2)
                 if len(name_desc) < 2:
-                    print("Użycie: add <nazwa>; <opis>")
+                    print(colored("Użycie: add <nazwa>; <opis>  lub  add <lista>; <nazwa>; <opis>", 'yellow'))
                     return
-                self.add_task(name_desc[0].strip(), name_desc[1].strip())
+                if len(name_desc) == 2:
+                    list_name = None
+                    name = name_desc[0].strip()
+                    description = name_desc[1].strip()
+                else:
+                    list_name = name_desc[0].strip()
+                    name = name_desc[1].strip()
+                    description = name_desc[2].strip()
+                self.add_task(name, description, list_name)
+
             case "list":
+                list_name = args
+                if not list_name:
+                    list_name  = self.current_list
+                else:
+                    self.switch_task_list(list_name)
+                    self.clear_screen()
                 self.list_tasks()
+
             case "list_all":
+                list_name = args
+                if not list_name:
+                    list_name  = self.current_list
+                else:
+                    self.switch_task_list(list_name)
+                    self.clear_screen()
                 self.list_tasks_all()
+
             case "update_status":
-                args_split = args.split(" ", 1)
+                args_split = args.split(" ", 2)
                 if len(args_split) < 2:
-                    print("Użycie: update_status <id> <status>")
+                    print(colored("Użycie: update_status <nazwa listy> <id> <status> lub <id> <status>",'yellow'))
                     print("Dostępne statusy: 1 - Rozpoczęte, 2 - Wstrzymane, 3 - Zakończone")
                     return
-                task_id, status = args_split[0], args_split[1]
+        
+                if(len(args_split) ==2):
+                    id = args_split[0].strip()
+                    status_id = args_split[1].strip()
+                else:
+                    self.switch_task_list(args_split[0].strip())
+                    id = args_split[1].strip()
+                    status_id = args_split[2].strip()
+
+                task_id, status = id, status_id
                 self.update_task(int(task_id), status)
+
             case "switch":
                 self.switch_task_list(args)
+
             case "remove":
-                self.remove_task(args)
+                print(colored("Użycie: remove <nazwa listy> <id> lub <id>", 'yellow'))
+                args_split = args.split(" ", 2)
+                if(len(args_split) == 1):
+                    id = args_split[0].strip()
+                else:
+                    self.switch_task_list(args_split[0].strip())
+                    id = args_split[1].strip()
+                self.remove_task(id)
             case "new_list":
                 self.create_new_list(args)
             case "lists":
@@ -241,11 +293,11 @@ class TaskManager:
 
          # Sekcja zadań
         print(colored("Zadania:", 'cyan'))
-        print(colored("   > add <nazwa>; <opis>       - Dodaje nowe zadanie", 'green'))
-        print("   > list                      - Wyświetla listę aktywnych zadań")
-        print("   > list_all                  - Wyświetla pełną listę zadań (również te zakończone)")
-        print("   > update_status <id> <status>      - Aktualizuje status zadania")
-        print(colored("   > remove <id>               - Usuwa zadanie", 'red'))
+        print(colored("   > add <nazwa>; <opis>         lub  add <nazwa_listy>; <nazwa>; <opis>        - Dodaje nowe zadanie", 'green'))
+        print("   > list                        lub  list <nazwa_listy>                        - Wyświetla listę aktywnych zadań")
+        print("   > list_all                    lub  list_all <nazwa_listy>                    - Wyświetla pełną listę zadań (również te zakończone)")
+        print("   > update_status <id> <status> lub  update_status <nazwa_listy> <id> <status> - Aktualizuje status zadania")
+        print(colored("   > remove <id>                 lub remove <nazwa_listy> <id>                  - Usuwa zadanie", 'red'))
 
         # Sekcja list
         print(colored("Listy:", 'cyan'))
@@ -262,10 +314,16 @@ class TaskManager:
 
 def main():
     manager = TaskManager()
-    print("Task Manager CLI. Wpisz 'help', aby zobaczyć dostępne komendy.")
-    while True:
-        command = input("\nKomenda: ")
+    
+    if len(sys.argv) > 1:
+        # Jeśli program uruchomiono z argumentami, wykonaj je bez interaktywnego trybu
+        command = " ".join(sys.argv[1:])
         manager.handle_command(command)
+    else:
+        print("Task Manager CLI. Wpisz 'help', aby zobaczyć dostępne komendy.")
+        while True:
+            command = input("\nKomenda: ")
+            manager.handle_command(command)
 
 if __name__ == "__main__":
     main()

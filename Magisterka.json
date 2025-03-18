@@ -1,8 +1,38 @@
 [
     {
-        "name": "Wykona\u0107_UML",
-        "description": "Stworzenie diagramu UML dla u\u017cytkownik\u00f3w zalogowanych i niezalogowanych na platformie tradenest.",
+        "name": "Etap12",
+        "description": "new task",
+        "status": "Zako\u0144czone",
+        "created_at": "2025-03-18T18:41:53.552510"
+    },
+    {
+        "name": "Etap12",
+        "description": "new task",
         "status": "Do zrobienia",
-        "created_at": "2025-03-17T21:00:35.164865"
+        "created_at": "2025-03-18T19:12:09.280979"
+    },
+    {
+        "name": "Etap12",
+        "description": "new task",
+        "status": "Do zrobienia",
+        "created_at": "2025-03-18T19:14:38.393226"
+    },
+    {
+        "name": "Etap12",
+        "description": "new task",
+        "status": "Do zrobienia",
+        "created_at": "2025-03-18T19:22:50.361542"
+    },
+    {
+        "name": "Etap12",
+        "description": "new task",
+        "status": "Wstrzymane",
+        "created_at": "2025-03-18T19:23:17.714295"
+    },
+    {
+        "name": "Dodaje nowe",
+        "description": "zobacze",
+        "status": "Do zrobienia",
+        "created_at": "2025-03-18T20:12:42.614261"
     }
 ]
