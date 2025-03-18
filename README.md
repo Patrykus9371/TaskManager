@@ -32,6 +32,7 @@ python TaskManager.py add " List_name; task_name; Task description"
   ```
 
 ## Comands 
+
 ### Add Task:
  ```sh
 python TaskManager add <name_list>; <name>; <description> 
@@ -56,6 +57,8 @@ Example:
  ```sh
 python TaskManager.py list Example_List
   ```
+
+
 ### List All Task:
 
  ```sh
@@ -82,6 +85,8 @@ Example:
  ```sh
 python TaskManager.py update_status Example_List 1 2
   ```
+
+
 ### Remove Task
  ```sh
 python TaskManager remove <name_list> <id> 
@@ -95,6 +100,7 @@ Example:
 python TaskManager.py remove Example_List 1 
   ```
 
+
 ### New List
 
  ```sh
@@ -104,6 +110,7 @@ Example:
  ```sh
 python TaskManager.py new_list Example_List
   ```
+
 
 ### Switch List
 
@@ -116,11 +123,13 @@ python TaskManager.py switch Example_List
   ```
 This command works only in the list-switching mode. To run the script without switching the list, simply execute it without any additional parameters !!!
 
-### List Lists
+
+### List Available Lists
 
  ```sh
 python TaskManager switch list
   ```
+
 
 ### Delete List
 
@@ -133,6 +142,14 @@ python TaskManager.py delete_list Example_List
   ```
 
 
+## Data Storage
+All task lists are stored in separate JSON files, ensuring persistent storage for each list between program runs.
+
+
+## Notes
+* By default, completed tasks are hidden after 7 days. You can view hidden tasks again using the list_all command.
+* If a JSON file for a task list doesn't exist, it will be automatically created.
+  
 ## Requirements
 The project uses the following Python libraries:
 
