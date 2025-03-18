@@ -28,5 +28,82 @@ This will launch an interactive prompt where you can type commands.
 ### Command Line Arguments
 You can also pass commands directly when starting the program. Example:
  ```sh
-python task_manager.py add "Task name" "Task description"
+python TaskManager.py add " List_name; task_name; Task description"
   ```
+
+## Comands 
+### Add Task:
+ ```sh
+python TaskManager add <name_list>; <name>; <description> 
+  ```
+or
+ ```sh
+python TaskManager add <name>; <description> 
+  ```
+Example:
+ ```sh
+python TaskManager.py add " List_name; task_name; Task description"
+  ```
+### List Task:
+ ```sh
+python TaskManager list <name_list> 
+  ```
+or
+ ```sh
+python TaskManager list 
+  ```
+Example:
+ ```sh
+python TaskManager.py list Example_List
+  ```
+### List All Task:
+
+ ```sh
+python TaskManager list_all <name_list> 
+  ```
+or
+ ```sh
+python TaskManager list_all
+  ```
+Example:
+ ```sh
+python TaskManager.py list_all Example_List
+```
+### Update Status Task
+
+ ```sh
+python TaskManager update_status <name_list> <id> <status>
+  ```
+or
+ ```sh
+python TaskManager update_status <id> <status>
+  ```
+Example:
+ ```sh
+python TaskManager.py update_status Example_List 1 2
+  ```
+### Remove Task
+ ```sh
+python TaskManager remove <name_list> <id> 
+  ```
+or
+ ```sh
+python TaskManager remove <id> 
+  ```
+Example:
+ ```sh
+python TaskManager.py remove Example_List 1 
+  ```
+
+### New List
+
+
+
+## Requirements
+The project uses the following Python libraries:
+
+* termcolor for colored terminal output
+* platform for handling platform-specific commands
+* datetime for handling task dates and times
+* json for reading and writing task data to/from files
+* os for interacting with the operating system (e.g., for clearing the screen and managing files)
