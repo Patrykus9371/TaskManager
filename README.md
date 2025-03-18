@@ -97,6 +97,40 @@ python TaskManager.py remove Example_List 1
 
 ### New List
 
+ ```sh
+python TaskManager new_list <name>
+  ```
+Example:
+ ```sh
+python TaskManager.py new_list Example_List
+  ```
+
+### Switch List
+
+ ```sh
+python TaskManager switch <name>
+  ```
+Example:
+ ```sh
+python TaskManager.py switch Example_List
+  ```
+This command works only in the list-switching mode. To run the script without switching the list, simply execute it without any additional parameters !!!
+
+### List Lists
+
+ ```sh
+python TaskManager switch list
+  ```
+
+### Delete List
+
+ ```sh
+python TaskManager delete_list <name>
+  ```
+Example:
+ ```sh
+python TaskManager.py delete_list Example_List
+  ```
 
 
 ## Requirements
