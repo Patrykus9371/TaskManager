@@ -156,6 +156,9 @@ All task lists are stored in separate JSON files, ensuring persistent storage fo
 The project uses the following Python libraries:
 
 * termcolor for colored terminal output
+   ```sh
+    pip install termcolor
+   ```
 * platform for handling platform-specific commands
 * datetime for handling task dates and times
 * json for reading and writing task data to/from files
