@@ -1,2 +1,10 @@
+# Ignoruj wszystkie katalogi __pycache__ w całym projekcie
 **/__pycache__/
 __pycache__/
+
+# Ignoruj katalogi build i dist
+build/
+dist/
+
+# Ignoruj plik spec wygenerowany przez PyInstaller
+TaskManager.spec
